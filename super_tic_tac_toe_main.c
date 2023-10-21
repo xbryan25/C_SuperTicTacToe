@@ -5,30 +5,53 @@
 #include <windows.h>
 
 void showInstructions();
-void showGlobalBoard();
+void showGlobalBoard(char global_board_state[]);
+
 void showLocalBoard(char local_board_state[]);
+void editLocalBoard(char *local_board_state[], char local_board_number, char player_sign);
+void checkLocalBoard(char local_board_state[], char global_board_state[]);
 
 int main(){
-    char local_board_1_state[] = {'1',
-                                  'O', 'O', 'O',
-                                  ' ', 'X', ' ',
-                                  ' ', ' ', ' '};
+    char player_sign = 'X';
+
+    char global_board_state[] = {'1', '2', '3',
+                                 '4', '5', '6',
+                                 '7', '8', '9'};
+                                  
+    char local_board_state[9][10] = {{'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'2', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'5', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'6', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'7', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'8', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'9', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
 
     int init_local_board_choice = 0;
+    int choose_any_local = 0;
+    int location_of_target_spot = 0;
     int do_while_flag = 0;
 
     showInstructions();
 
     do{
-        showGlobalBoard();
+        showGlobalBoard(global_board_state);
 
-        printf("Choose a local TicTacToe spot. ");
-        scanf("%d", &init_local_board_choice);
+        if (choose_any_local == 0){
+            printf("Choose a local TicTacToe spot. ");
+            scanf("%d", &init_local_board_choice);
 
-        if (init_local_board_choice == 1)
-            showLocalBoard(local_board_1_state);
-            do_while_flag = 1;
+            if (init_local_board_choice == 1){
+                showLocalBoard(local_board_state[0]);
 
+                char *current_local_board_pointer = local_board_state[0];
+
+                editLocalBoard(current_local_board_pointer, 0, player_sign);
+                // checkLocalBoard(local_board_state[0], global_board_state);
+            }
+                
+        }
 
     } while (do_while_flag == 0);
     
@@ -48,29 +71,31 @@ void showInstructions(){
     printf("to be placed in a spot in the Global TicTacToe.\n\n\n");
 }
 
-void showGlobalBoard(){
+void showGlobalBoard(char global_board_state[]){
     printf("+---------|-----------|----------+\n");
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
-    printf("|    1    |     2     |     3    |\n");
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("+---------|-----------|----------+\n");
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("|    4    |     5     |     6    |\n");
+    printf("|    %c    |     %c     |     %c    |\n", global_board_state[0], global_board_state[1], global_board_state[2]);
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
     printf("+---------|-----------|----------+\n");
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
-    printf("|    7    |     8     |     9    |\n");
+    printf("|    %c    |     %c     |     %c    |\n", global_board_state[3], global_board_state[4], global_board_state[5]);
+    printf("|         |           |          |\n");
+    printf("|         |           |          |\n");
+    printf("+---------|-----------|----------+\n");
+    printf("|         |           |          |\n");
+    printf("|         |           |          |\n");
+    printf("|    %c    |     %c     |     %c    |\n", global_board_state[6], global_board_state[7], global_board_state[8]);
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
     printf("+---------|-----------|----------+\n\n");
 }
 
 void showLocalBoard(char local_board_state[]){
+    printf("Local board %c:\n\n", local_board_state[0]);
+
     printf("+---------|-----------|----------+\n");
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
@@ -91,3 +116,32 @@ void showLocalBoard(char local_board_state[]){
     printf("|         |           |          |\n");
     printf("+---------|-----------|----------+\n\n");
 }
+
+void editLocalBoard(char *local_board_state[], char local_board_number, char player_sign){
+    int player_spot_choice = 0;
+
+
+    do{
+        printf("Choose a spot to place %c.\n", player_sign);
+        scanf("%d", &player_spot_choice);
+
+        if (local_board_state[local_board_number][player_spot_choice] == 'X' || 
+            local_board_state[local_board_number][player_spot_choice] == 'O'){
+
+            printf("That spot is already occupied. Choose another spot on the board. \n");
+        }
+
+    }while (local_board_state[local_board_number][player_spot_choice] == 'X' || 
+            local_board_state[local_board_number][player_spot_choice] == 'O');
+
+    local_board_state[local_board_number][local_board_number] = player_sign;
+}
+
+// void checkLocalBoard(char local_board_state[], char global_board_state[]){
+//     if (local_board_state[0] == local_board_state[1] && local_board_state[1] == local_board_state[2]){
+//         printf("");
+//     } else if (local_board_state[0] == local_board_state[4] && local_board_state[1] == local_board_state[2]){
+
+//     }
+
+// }
