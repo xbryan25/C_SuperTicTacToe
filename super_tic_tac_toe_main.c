@@ -6,8 +6,9 @@
 
 void showInstructions();
 void showGlobalBoard(char global_board_state[]);
-
 void showLocalBoard(char local_board_state[]);
+
+void anyLocalBoardChoice(char local_board_states[9][10], char player_sign);
 
 // (char (*local_board_state)[10] means a pointer that points to an array that has 10 characters
 void editLocalBoard(char (*local_board_state)[10], char char_local_board_number, char player_sign);
@@ -21,7 +22,7 @@ int main(){
                                  '7', '8', '9'};
                                   
     char local_board_states[9][10] = {{'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                                {'2', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                                {'2', 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'5', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -30,7 +31,6 @@ int main(){
                                 {'8', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'9', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
 
-    int init_local_board_choice = 0;
     int choose_any_local = 0;
     int location_of_target_spot = 0;
     int do_while_flag = 0;
@@ -41,29 +41,11 @@ int main(){
         showGlobalBoard(global_board_state);
 
         if (choose_any_local == 0){
-            printf("Choose a local TicTacToe spot. ");
-            scanf("%d", &init_local_board_choice);
-
-            if (init_local_board_choice == 1){
-                showLocalBoard(local_board_states[0]);
-
-                // TODO: EDIT HERE
-                // Ampersand sign '&' points to the entires array, not the first element of the array.
-                
-                char (*current_local_board_pointer)[10] = &local_board_states[0];
-                editLocalBoard(current_local_board_pointer, local_board_states[0][0], player_sign);
-
-                showLocalBoard(local_board_states[0]);
-                do_while_flag = 1;
- 
-                // checkLocalBoard(local_board_state[0], global_board_state);
+            anyLocalBoardChoice(local_board_states, player_sign);
+            do_while_flag = 1;
+            // checkLocalBoard(local_board_state[0], global_board_state);
             }
-                
-        }
-
     } while (do_while_flag == 0);
-    
-
 
     return 0;
 }
@@ -123,6 +105,26 @@ void showLocalBoard(char local_board_state[]){
     printf("|         |           |          |\n");
     printf("|         |           |          |\n");
     printf("+---------|-----------|----------+\n\n");
+}
+
+void anyLocalBoardChoice(char local_board_states[9][10], char player_sign){
+    int local_board_choice = 0;
+    char (*current_local_board_pointer)[10];
+
+    printf("Choose a local TicTacToe spot. ");
+    scanf("%d", &local_board_choice);
+
+    if (local_board_choice == 1){
+        showLocalBoard(local_board_states[local_board_choice - 1]);
+
+        // Ampersand sign '&' points to the entires array, not the first element of the array.
+        
+        current_local_board_pointer = &local_board_states[0];
+        editLocalBoard(current_local_board_pointer, '1', player_sign);
+
+        showLocalBoard(local_board_states[local_board_choice - 1]);
+    }
+
 }
 
 void editLocalBoard(char (*local_board_state)[10], char char_local_board_number, char player_sign){
