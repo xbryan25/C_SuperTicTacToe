@@ -8,7 +8,9 @@ void showInstructions();
 void showGlobalBoard(char global_board_state[]);
 
 void showLocalBoard(char local_board_state[]);
-void editLocalBoard(char *local_board_state[], char local_board_number, char player_sign);
+
+// (char (*local_board_state)[10] means a pointer that points to an array that has 10 characters
+void editLocalBoard(char (*local_board_state)[10], char char_local_board_number, char player_sign);
 void checkLocalBoard(char local_board_state[], char global_board_state[]);
 
 int main(){
@@ -18,7 +20,7 @@ int main(){
                                  '4', '5', '6',
                                  '7', '8', '9'};
                                   
-    char local_board_state[9][10] = {{'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    char local_board_states[9][10] = {{'1', '1', '-', '-', '-', ' ', ' ', ' ', ' ', ' '},
                                 {'2', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -43,11 +45,17 @@ int main(){
             scanf("%d", &init_local_board_choice);
 
             if (init_local_board_choice == 1){
-                showLocalBoard(local_board_state[0]);
+                showLocalBoard(local_board_states[0]);
 
-                char *current_local_board_pointer = local_board_state[0];
+                // TODO: EDIT HERE
+                // Ampersand sign '&' points to the entires array, not the first element of the array.
+                
+                char (*current_local_board_pointer)[10] = &local_board_states[0];
+                editLocalBoard(current_local_board_pointer, local_board_states[0][0], player_sign);
 
-                editLocalBoard(current_local_board_pointer, 0, player_sign);
+                showLocalBoard(local_board_states[0]);
+                do_while_flag = 1;
+ 
                 // checkLocalBoard(local_board_state[0], global_board_state);
             }
                 
@@ -117,24 +125,31 @@ void showLocalBoard(char local_board_state[]){
     printf("+---------|-----------|----------+\n\n");
 }
 
-void editLocalBoard(char *local_board_state[], char local_board_number, char player_sign){
+void editLocalBoard(char (*local_board_state)[10], char char_local_board_number, char player_sign){
     int player_spot_choice = 0;
 
+    int int_local_board_number = char_local_board_number - '0'; 
+
+    // int_local_board_number is subracted by 1 to match the 0 indexing of the local_board_state array
+    int_local_board_number--;
 
     do{
         printf("Choose a spot to place %c.\n", player_sign);
         scanf("%d", &player_spot_choice);
 
-        if (local_board_state[local_board_number][player_spot_choice] == 'X' || 
-            local_board_state[local_board_number][player_spot_choice] == 'O'){
+        if (*(*(local_board_state + int_local_board_number) + player_spot_choice) == 'X' || 
+            *(*(local_board_state + int_local_board_number) + player_spot_choice) == 'O'){
 
             printf("That spot is already occupied. Choose another spot on the board. \n");
         }
 
-    }while (local_board_state[local_board_number][player_spot_choice] == 'X' || 
-            local_board_state[local_board_number][player_spot_choice] == 'O');
+    }while (*(*(local_board_state + int_local_board_number) + player_spot_choice) == 'X' || 
+            *(*(local_board_state + int_local_board_number) + player_spot_choice) == 'O');
 
-    local_board_state[local_board_number][local_board_number] = player_sign;
+    // Points to the jth element in a 2D Array
+    // For more understanding, check geeksforgeeks link
+
+    *(*(local_board_state + int_local_board_number) + player_spot_choice) = 'X';
 }
 
 // void checkLocalBoard(char local_board_state[], char global_board_state[]){
