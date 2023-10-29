@@ -23,7 +23,7 @@ void checkLocalBoard(char global_board_state[], char local_board_state[], int lo
 int main(){
     char player_sign = 'X';
 
-    char global_board_state[] = {'1', '2', '3',
+    char global_board_state[] = {'X', '2', '3',
                                  '4', '5', '6',
                                  '7', '8', '9'};
                                   
@@ -63,6 +63,7 @@ int main(){
                 Sleep(1500);
                 system("cls");
 
+                // TODO: put if statement here that doesnt show line 67 when local board has been won
                 printf("Going to local board %d...", next_local);
                 Sleep(1000);
                 system("cls");
@@ -88,27 +89,42 @@ int main(){
             }
 
             choose_any_local = 1;
+            global_only = 1;
+
         } else{
             if (enemy_turn == 0){
-                next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
+                
+                if (global_board_state[next_local- 1] != 'X' && global_board_state[next_local - 1] != 'O'){
+                    next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
+                    Sleep(2000);
+                    system("cls");
 
-                Sleep(2000);
-                system("cls");
-
-                printf("Going to local board %d...", next_local);
-                Sleep(1000);
-                system("cls");
-
+                    printf("Going to local board %d...", next_local);
+                    Sleep(1000);
+                    system("cls");
+                } else{
+                    system("cls");
+                    choose_any_local = 0;
+                    global_only = 0;
+                }
                 enemy_turn = 0;
+
             } else {
-                next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
 
-                Sleep(2000);
-                system("cls");
+                if (global_board_state[next_local - 1] != 'X' && global_board_state[next_local - 1] != 'O'){
+                    printf("HiHiHiHiHiHiHiHiHiHi");
+                    next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
+                    Sleep(2000);
+                    system("cls");
 
-                printf("Going to local board %d...", next_local);
-                Sleep(1000);
-                system("cls");
+                    printf("Going to local board %d...", next_local);
+                    Sleep(1000);
+                    system("cls");
+                } else{
+                    system("cls");
+                    choose_any_local = 0;
+                    global_only = 0;
+                }
 
                 enemy_turn = 0;
             }
@@ -119,8 +135,6 @@ int main(){
                 player_sign = 'X';
             }
         }
-
-        global_only = 1;
 
     } while (do_while_flag == 0);
 
