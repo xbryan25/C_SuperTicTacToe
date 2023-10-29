@@ -21,8 +21,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
 void checkLocalBoard(char global_board_state[], char local_board_state[], int local_board, char turn_sign);
 
 int main(){
-    char player_sign = 'X';
-
+    // Initialize variables
     char global_board_state[] = {'X', '2', '3',
                                  '4', '5', '6',
                                  '7', '8', '9'};
@@ -37,6 +36,7 @@ int main(){
                                 {'8', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
                                 {'9', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
 
+    char player_sign = 'X';
     int choose_any_local = 0; 
     int do_while_flag = 0;
     int next_local = 0;
@@ -63,8 +63,10 @@ int main(){
                 Sleep(1500);
                 system("cls");
 
-                // TODO: put if statement here that doesnt show line 67 when local board has been won
-                printf("Going to local board %d...", next_local);
+                if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
+                    printf("Going to local board %d...", next_local);
+                }
+
                 Sleep(1000);
                 system("cls");
 
@@ -75,7 +77,10 @@ int main(){
                 Sleep(1500);
                 system("cls");
 
-                printf("Going to local board %d...", next_local);
+                if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
+                    printf("Going to local board %d...", next_local);
+                }
+                
                 Sleep(1000);
                 system("cls");
                 
@@ -99,7 +104,10 @@ int main(){
                     Sleep(2000);
                     system("cls");
 
-                    printf("Going to local board %d...", next_local);
+                    if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
+                        printf("Going to local board %d...", next_local);
+                    }
+                    
                     Sleep(1000);
                     system("cls");
                 } else{
@@ -112,12 +120,14 @@ int main(){
             } else {
 
                 if (global_board_state[next_local - 1] != 'X' && global_board_state[next_local - 1] != 'O'){
-                    printf("HiHiHiHiHiHiHiHiHiHi");
                     next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
                     Sleep(2000);
                     system("cls");
 
-                    printf("Going to local board %d...", next_local);
+                    if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
+                        printf("Going to local board %d...", next_local);
+                    }
+
                     Sleep(1000);
                     system("cls");
                 } else{
