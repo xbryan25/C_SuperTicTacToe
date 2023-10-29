@@ -9,16 +9,14 @@ void showInstructions();
 void showOnlyGlobalBoard(char global_board_state[]);
 void showGlobalAndLocal(char global_board_state[], char local_board_state[]);
 
-// void showLocalBoard(char local_board_state[]);
-
-int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char player_sign, int *enemy_turn_pointer);
-int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char player_sign, int next_local, int *enemy_turn_pointer);
+int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char turn_sign, int *enemy_turn_pointer);
+int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char turn_sign, int next_local, int *enemy_turn_pointer);
 
 int generateRandomNumber(int max);
 
 // (char (*local_board_state)[10] means a pointer that points to an array that has 10 characters
 int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_turn_pointer);
-void checkLocalBoard(char local_board_state[], char global_board_state[]);
+void checkLocalBoard(char global_board_state[], char local_board_state[], int local_board, char turn_sign);
 
 int main(){
     char player_sign = 'X';
@@ -54,8 +52,11 @@ int main(){
         }
         
         if (choose_any_local == 0){
+
+            char *global_board_pointer = global_board_state;
+
             if (enemy_turn == 0){
-                next_local = anyLocalBoardChoice(local_board_states, global_board_state, player_sign, enemy_turn_pointer);
+                next_local = anyLocalBoardChoice(local_board_states, global_board_pointer, player_sign, enemy_turn_pointer);
 
                 Sleep(1500);
                 system("cls");
@@ -66,7 +67,7 @@ int main(){
 
                 enemy_turn = 0;
             } else {
-                next_local = anyLocalBoardChoice(local_board_states, global_board_state, player_sign, enemy_turn_pointer);
+                next_local = anyLocalBoardChoice(local_board_states, global_board_pointer, player_sign, enemy_turn_pointer);
 
                 Sleep(1500);
                 system("cls");
@@ -116,7 +117,7 @@ int main(){
                 player_sign = 'X';
             }
         }
-        
+
         global_only = 1;
 
     } while (do_while_flag == 0);
@@ -192,31 +193,7 @@ void showGlobalAndLocal(char global_board_state[], char local_board_state[]){
     printf("+---------|-----------|----------+     +---------|-----------|----------+\n\n");
 }
 
-// void showLocalBoard(char local_board_state[]){
-//     printf("\nLocal board %c:\n\n", local_board_state[0]);
-
-//     printf("+---------|-----------|----------+\n");
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("|    %c    |     %c     |     %c    |\n", local_board_state[1], local_board_state[2], local_board_state[3]);
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("+---------|-----------|----------+\n");
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("|    %c    |     %c     |     %c    |\n", local_board_state[4], local_board_state[5], local_board_state[6]);
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("+---------|-----------|----------+\n");
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("|    %c    |     %c     |     %c    |\n", local_board_state[7], local_board_state[8], local_board_state[9]);
-//     printf("|         |           |          |\n");
-//     printf("|         |           |          |\n");
-//     printf("+---------|-----------|----------+\n\n");
-// }
-
-int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char player_sign, int *enemy_turn_pointer){
+int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char turn_sign, int *enemy_turn_pointer){
     int local_board_choice = 0;
     int local_board_spot = 0;
     char (*current_local_board_pointer)[10];
@@ -229,12 +206,11 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
     }    
 
     showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
-    // showLocalBoard(local_board_states[local_board_choice - 1]);
 
     // Ampersand sign '&' points to the entires array, not the first element of the array.    
     current_local_board_pointer = &local_board_states[local_board_choice - 1];
 
-    local_board_spot = editLocalBoard(current_local_board_pointer, player_sign, enemy_turn_pointer);
+    local_board_spot = editLocalBoard(current_local_board_pointer, turn_sign, enemy_turn_pointer);
 
     system("cls");
 
@@ -244,11 +220,13 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
 
     showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
+    checkLocalBoard(global_board_state, local_board_states[local_board_choice - 1], local_board_choice, turn_sign);
+
     return local_board_spot;
 
 }
 
-int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char player_sign, int next_local, int *enemy_turn_pointer){
+int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char turn_sign, int next_local, int *enemy_turn_pointer){
     int local_board_spot = 0;
 
     // Initialize a pointer that leads to an array that has 10 characters
@@ -260,7 +238,7 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
     // Ampersand sign '&' points to the entires array, not the first element of the array.    
     current_local_board_pointer = &local_board_states[next_local - 1];
 
-    local_board_spot = editLocalBoard(current_local_board_pointer, player_sign, enemy_turn_pointer);
+    local_board_spot = editLocalBoard(current_local_board_pointer, turn_sign, enemy_turn_pointer);
 
     system("cls");
 
@@ -269,6 +247,8 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
     Sleep(1000);
 
     showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
+
+    checkLocalBoard(global_board_state, local_board_states[next_local - 1], next_local, turn_sign);
 
     return local_board_spot;
 }
@@ -315,11 +295,22 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     return player_spot_choice;
 }
 
-// void checkLocalBoard(char local_board_state[], char global_board_state[]){
-//     if (local_board_state[0] == local_board_state[1] && local_board_state[1] == local_board_state[2]){
-//         printf("");
-//     } else if (local_board_state[0] == local_board_state[4] && local_board_state[1] == local_board_state[2]){
-
-//     }
-
-// }
+void checkLocalBoard(char global_board_state[], char local_board_state[], int local_board, char turn_sign){
+    if (local_board_state[1] == local_board_state[2] && local_board_state[2] == local_board_state[3]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[4] == local_board_state[5] && local_board_state[5] == local_board_state[6]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[7] == local_board_state[8] && local_board_state[8] == local_board_state[9]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[1] == local_board_state[4] && local_board_state[4] == local_board_state[7]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[2] == local_board_state[5] && local_board_state[5] == local_board_state[8]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[3] == local_board_state[6] && local_board_state[6] == local_board_state[9]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[1] == local_board_state[5] && local_board_state[5] == local_board_state[9]){
+        global_board_state[local_board - 1] = turn_sign;
+    } else if (local_board_state[3] == local_board_state[5] && local_board_state[5] == local_board_state[7]){
+        global_board_state[local_board - 1] = turn_sign;
+    } 
+}
