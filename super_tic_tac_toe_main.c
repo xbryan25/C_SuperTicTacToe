@@ -12,6 +12,8 @@ void showGlobalAndLocal(char global_board_state[], char local_board_state[]);
 int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char turn_sign, int *enemy_turn_pointer);
 int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char turn_sign, int next_local, int *enemy_turn_pointer);
 
+int checkIfGlobalIsOccupied(char global_board_state[], int choice);
+
 int generateRandomNumber(int max);
 
 // (char (*local_board_state)[10] means a pointer that points to an array that has 10 characters
@@ -198,12 +200,21 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
     int local_board_spot = 0;
     char (*current_local_board_pointer)[10];
 
-    if (*enemy_turn_pointer == 0){
-        printf("Choose a local TicTacToe spot. ");
-        scanf("%d", &local_board_choice);
-    } else {
-        local_board_choice = generateRandomNumber(8) + 1;
-    }    
+    while (1){
+        if (*enemy_turn_pointer == 0){
+            printf("Choose a local TicTacToe spot. ");
+            scanf("%d", &local_board_choice);
+        } else {
+            local_board_choice = generateRandomNumber(8) + 1;
+        }   
+
+        if (checkIfGlobalIsOccupied(global_board_state, local_board_choice) == 0){
+            break;
+        } else if (*enemy_turn_pointer == 0){
+            printf("That local board has already been won by %c. Find another local board.\n\n", turn_sign);
+        }
+    }
+     
 
     showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
@@ -251,6 +262,14 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
     checkLocalBoard(global_board_state, local_board_states[next_local - 1], next_local, turn_sign);
 
     return local_board_spot;
+}
+
+int checkIfGlobalIsOccupied(char global_board_state[], int choice){
+    if (global_board_state[choice - 1] == 'X' || global_board_state[choice] == 'O'){
+        return 1;
+    } else{
+        return 0;
+    }
 }
 
 int generateRandomNumber(int max){
