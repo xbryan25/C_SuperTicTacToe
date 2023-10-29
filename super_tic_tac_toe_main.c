@@ -60,11 +60,19 @@ int main(){
                 Sleep(1500);
                 system("cls");
 
+                printf("Going to local board %d...", next_local);
+                Sleep(1000);
+                system("cls");
+
                 enemy_turn = 0;
             } else {
                 next_local = anyLocalBoardChoice(local_board_states, global_board_state, player_sign, enemy_turn_pointer);
 
                 Sleep(1500);
+                system("cls");
+
+                printf("Going to local board %d...", next_local);
+                Sleep(1000);
                 system("cls");
                 
                 enemy_turn = 0;
@@ -81,14 +89,22 @@ int main(){
             if (enemy_turn == 0){
                 next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
 
-                Sleep(1500);
+                Sleep(2000);
+                system("cls");
+
+                printf("Going to local board %d...", next_local);
+                Sleep(1000);
                 system("cls");
 
                 enemy_turn = 0;
             } else {
                 next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
 
-                Sleep(1500);
+                Sleep(2000);
+                system("cls");
+
+                printf("Going to local board %d...", next_local);
+                Sleep(1000);
                 system("cls");
 
                 enemy_turn = 0;
@@ -222,6 +238,10 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
 
     system("cls");
 
+    printf("Changes made on local board %d (at spot %d):\n\n", local_board_choice, local_board_spot);
+
+    Sleep(1000);
+
     showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
     return local_board_spot;
@@ -243,6 +263,10 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
     local_board_spot = editLocalBoard(current_local_board_pointer, player_sign, enemy_turn_pointer);
 
     system("cls");
+
+    printf("Changes made on local board %d (at spot %d):\n", next_local, local_board_spot);
+
+    Sleep(1000);
 
     showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
 
