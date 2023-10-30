@@ -1,3 +1,5 @@
+// TODO: Make checkGlobalBoard()
+
 
 #include <stdio.h>
 
@@ -18,11 +20,13 @@ int generateRandomNumber(int max);
 
 // (char (*local_board_state)[10] means a pointer that points to an array that has 10 characters
 int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_turn_pointer);
+
+int checkGlobalBoard(char global_board_state[], char turn_sign);
 void checkLocalBoard(char global_board_state[], char local_board_state[], int local_board, char turn_sign);
 
 int main(){
     // Initialize variables
-    char global_board_state[] = {'X', '2', '3',
+    char global_board_state[] = {'X', 'X', 'X',
                                  '4', '5', '6',
                                  '7', '8', '9'};
                                   
@@ -43,16 +47,27 @@ int main(){
     int enemy_turn = 0;
     int global_only = 0;
 
+    int overall_winner = 0;
+
     int *enemy_turn_pointer = &enemy_turn;
 
     showInstructions();
 
     do{ 
+        if (checkGlobalBoard(global_board_state, player_sign) == 1){
+            overall_winner = 1;
+            break;
+        } else if (checkGlobalBoard(global_board_state, player_sign) == 2){
+            overall_winner = 2;
+            break;
+        }
+
+
         if (global_only == 0){
             printf("Global Board:\n\n");
             showOnlyGlobalBoard(global_board_state);
         }
-        
+
         if (choose_any_local == 0){
 
             char *global_board_pointer = global_board_state;
@@ -147,6 +162,16 @@ int main(){
         }
 
     } while (do_while_flag == 0);
+
+    Sleep(1000);
+    system("cls");
+    printf("\n\nThe winner is player ");
+
+    if (overall_winner == 1){
+        printf("\'X\'!\n");
+    } else if (overall_winner == 2){
+        printf("\'O\'!\n");
+    }
 
     return 0;
 }
@@ -336,6 +361,30 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     *(*(local_board_state) + player_spot_choice) = turn_sign;
     
     return player_spot_choice;
+}
+
+int checkGlobalBoard(char global_board_state[], char turn_sign){
+    // 0 no one wins, 1 means player X wins, 2 means player O wins
+
+    if ((global_board_state[0] == global_board_state[1] && global_board_state[1] == global_board_state[2]) ||
+        (global_board_state[3] == global_board_state[4] && global_board_state[4] == global_board_state[5]) ||
+        (global_board_state[6] == global_board_state[7] && global_board_state[7] == global_board_state[8]) ||
+        (global_board_state[0] == global_board_state[3] && global_board_state[3] == global_board_state[6]) ||
+        (global_board_state[1] == global_board_state[4] && global_board_state[4] == global_board_state[7]) ||
+        (global_board_state[2] == global_board_state[5] && global_board_state[5] == global_board_state[8]) ||
+        (global_board_state[0] == global_board_state[4] && global_board_state[4] == global_board_state[8]) ||
+        (global_board_state[2] == global_board_state[4] && global_board_state[4] == global_board_state[6])){
+        
+        if (turn_sign == 'X'){
+            return 1;
+        } else{
+            return 2;
+        }
+
+    } else{
+        return 0;
+    }
+
 }
 
 void checkLocalBoard(char global_board_state[], char local_board_state[], int local_board, char turn_sign){
