@@ -1,5 +1,3 @@
-// TODO: Make checkGlobalBoard()
-
 
 #include <stdio.h>
 
@@ -26,7 +24,7 @@ void checkLocalBoard(char global_board_state[], char local_board_state[], int lo
 
 int main(){
     // Initialize variables
-    char global_board_state[] = {'X', 'X', 'X',
+    char global_board_state[] = {'1', '2', '3',
                                  '4', '5', '6',
                                  '7', '8', '9'};
                                   
@@ -85,7 +83,7 @@ int main(){
                 Sleep(1000);
                 system("cls");
 
-                enemy_turn = 0;
+                enemy_turn = 1;
             } else {
                 next_local = anyLocalBoardChoice(local_board_states, global_board_pointer, player_sign, enemy_turn_pointer);
 
@@ -130,7 +128,7 @@ int main(){
                     choose_any_local = 0;
                     global_only = 0;
                 }
-                enemy_turn = 0;
+                enemy_turn = 1;
 
             } else {
 
@@ -263,11 +261,15 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
             printf("That local board has already been won by %c. Find another local board.\n\n", turn_sign);
         }
     }
-     
+    
+    if (*enemy_turn_pointer == 1){
+        printf("Player %c chose local board %d\n", turn_sign, local_board_choice);
+        Sleep(1500);
+    }
 
     showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
-    // Ampersand sign '&' points to the entires array, not the first element of the array.    
+    // Ampersand sign '&' points to the entire array, not the first element of the array.    
     current_local_board_pointer = &local_board_states[local_board_choice - 1];
 
     local_board_spot = editLocalBoard(current_local_board_pointer, turn_sign, enemy_turn_pointer);
@@ -334,7 +336,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
             printf("Choose a spot to place %c.\n", turn_sign);
             scanf("%d", &player_spot_choice);
     
-            if (*(*(local_board_state) + player_spot_choice) == 'X' || 
+            if (*(*(local_board_state) + player_spot_choice) == 'X' && 
                 *(*(local_board_state) + player_spot_choice) == 'O'){
 
                 printf("That spot is already occupied. Choose another spot on the board. \n");
@@ -342,7 +344,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
         } else {
             player_spot_choice = generateRandomNumber(8) + 1;
 
-            if (*(*(local_board_state) + player_spot_choice) != 'X' || 
+            if (*(*(local_board_state) + player_spot_choice) != 'X' && 
                 *(*(local_board_state) + player_spot_choice) != 'O'){
 
                 break;
@@ -357,6 +359,11 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     // For more understanding, check geeksforgeeks link
 
     // *(*(local_board_state + int_local_board_number - player_spot_choice) + player_spot_choice) = 'X';
+
+    if (*enemy_turn_pointer == 1){
+        printf("Player %c chose to put %c at spot %d\n", turn_sign, turn_sign, player_spot_choice);
+        Sleep(2500);
+    }
 
     *(*(local_board_state) + player_spot_choice) = turn_sign;
     
