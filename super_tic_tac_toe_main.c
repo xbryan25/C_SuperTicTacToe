@@ -7,7 +7,7 @@
 
 void showInstructions();
 void showOnlyGlobalBoard(char global_board_state[]);
-void showGlobalAndLocal(char global_board_state[], char local_board_state[]);
+void showAllLocalBoards(char local_board_states[9][10]);
 
 int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char turn_sign, int *enemy_turn_pointer);
 int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char turn_sign, int next_local, int *enemy_turn_pointer);
@@ -186,60 +186,108 @@ void showInstructions(){
 }
 
 void showOnlyGlobalBoard(char global_board_state[]){
-    printf("+---------|-----------|----------+\n");
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("|    %c    |     %c     |     %c    |\n", global_board_state[0], global_board_state[1], global_board_state[2]);
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("+---------|-----------|----------+\n");
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("|    %c    |     %c     |     %c    |\n", global_board_state[3], global_board_state[4], global_board_state[5]);
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("+---------|-----------|----------+\n");
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("|    %c    |     %c     |     %c    |\n", global_board_state[6], global_board_state[7], global_board_state[8]);
-    printf("|         |           |          |\n");
-    printf("|         |           |          |\n");
-    printf("+---------|-----------|----------+\n\n");
+    int left_pad_num = 30;
+    char left_pad_str[] = "";
+
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , global_board_state[0], global_board_state[1], global_board_state[2]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , global_board_state[3], global_board_state[4], global_board_state[5]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , global_board_state[6], global_board_state[7], global_board_state[8]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n\n", left_pad_num, left_pad_str);
 }
 
-void showGlobalAndLocal(char global_board_state[], char local_board_state[]){
-    printf("\n\n           Global Board                             Local Board %c       \n\n", local_board_state[0]);
-    printf("+---------|-----------|----------+     +---------|-----------|----------+\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
+void showAllLocalBoards(char local_board_states[9][10]){
+    // lb_c means local board counter
 
-    printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
-            global_board_state[0], global_board_state[1], global_board_state[2],
-            local_board_state[1], local_board_state[2], local_board_state[3]);
+    int lb_c = 0;
 
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("+---------|-----------|----------+     +---------|-----------|----------+\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
+    while (lb_c < 9){
+        printf("\n\n           Local Board %c                            Local Board %c                      Local Board %c \n\n", 
+                local_board_states[lb_c][0], local_board_states[lb_c + 1][0], local_board_states[lb_c + 2][0]);
 
-    printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
-            global_board_state[3], global_board_state[4], global_board_state[5],
-            local_board_state[4], local_board_state[5], local_board_state[6]);
 
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("+---------|-----------|----------+     +---------|-----------|----------+\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
+        printf("+---------|-----------|----------+     +---------|-----------|----------+     +---------|-----------|----------+\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
 
-    printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
-            global_board_state[6], global_board_state[7], global_board_state[8],
-            local_board_state[7], local_board_state[8], local_board_state[9]);
+        printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
+                local_board_states[lb_c][1], local_board_states[lb_c][2], local_board_states[lb_c][3],
+                local_board_states[lb_c + 1][1], local_board_states[lb_c + 1][2], local_board_states[lb_c + 1][3],
+                local_board_states[lb_c + 2][1], local_board_states[lb_c + 2][2], local_board_states[lb_c + 2][3]);
 
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("|         |           |          |     |         |           |          |\n");
-    printf("+---------|-----------|----------+     +---------|-----------|----------+\n\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("+---------|-----------|----------+     +---------|-----------|----------+     +---------|-----------|----------+\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+
+        printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
+                local_board_states[lb_c][4], local_board_states[lb_c][5], local_board_states[lb_c][6],
+                local_board_states[lb_c + 1][4], local_board_states[lb_c + 1][5], local_board_states[lb_c + 1][6],
+                local_board_states[lb_c + 2][4], local_board_states[lb_c + 2][5], local_board_states[lb_c + 2][6]);
+
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("+---------|-----------|----------+     +---------|-----------|----------+     +---------|-----------|----------+\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+
+        printf("|    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |     |    %c    |     %c     |     %c    |\n", 
+                local_board_states[lb_c][7], local_board_states[lb_c][8], local_board_states[lb_c][9],
+                local_board_states[lb_c + 1][7], local_board_states[lb_c + 1][8], local_board_states[lb_c + 1][9],
+                local_board_states[lb_c + 2][7], local_board_states[lb_c + 2][8], local_board_states[lb_c + 2][9]);
+
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("|         |           |          |     |         |           |          |     |         |           |          |\n");
+        printf("+---------|-----------|----------+     +---------|-----------|----------+     +---------|-----------|----------+");
+
+        lb_c += 3;
+    }
+
+
+
+    
+}
+
+void showOneLocalBoard(char local_board_state[]){
+    int left_pad_num = 30;
+    char left_pad_str[] = "";
+
+    printf("%*sShowing changes on local board %c\n\n", left_pad_num, left_pad_str, local_board_state[0]);
+
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , local_board_state[1], local_board_state[2], local_board_state[3]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , local_board_state[4], local_board_state[5], local_board_state[6]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|    %c    |     %c     |     %c    |\n", left_pad_num, left_pad_str , local_board_state[7], local_board_state[8], local_board_state[9]);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s|         |           |          |\n", left_pad_num, left_pad_str);
+    printf("%*s+---------|-----------|----------+\n\n", left_pad_num, left_pad_str);
 }
 
 int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[], char turn_sign, int *enemy_turn_pointer){
@@ -267,7 +315,8 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
         Sleep(1500);
     }
 
-    showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
+    showAllLocalBoards(local_board_states);
+    // showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
     // Ampersand sign '&' points to the entire array, not the first element of the array.    
     current_local_board_pointer = &local_board_states[local_board_choice - 1];
@@ -280,7 +329,8 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
 
     Sleep(1000);
 
-    showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
+    showOneLocalBoard(local_board_states[local_board_choice - 1]);
+    // showGlobalAndLocal(global_board_state, local_board_states[local_board_choice - 1]);
 
     checkLocalBoard(global_board_state, local_board_states[local_board_choice - 1], local_board_choice, turn_sign);
 
@@ -294,7 +344,8 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
     // Initialize a pointer that leads to an array that has 10 characters
     char (*current_local_board_pointer)[10];
 
-    showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
+    showAllLocalBoards(local_board_states);
+    // showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
     // showLocalBoard(local_board_states[next_local - 1]);
 
     // Ampersand sign '&' points to the entires array, not the first element of the array.    
@@ -304,11 +355,13 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
 
     system("cls");
 
-    printf("Changes made on local board %d (at spot %d):\n", next_local, local_board_spot);
+    printf("Changes made on local board %d (at spot %d):\n\n", next_local, local_board_spot);
 
     Sleep(1000);
 
-    showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
+    showOneLocalBoard(local_board_states[next_local - 1]);
+
+    // showGlobalAndLocal(global_board_state, local_board_states[next_local - 1]);
 
     checkLocalBoard(global_board_state, local_board_states[next_local - 1], next_local, turn_sign);
 
@@ -333,7 +386,8 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
 
     do{
         if (*enemy_turn_pointer == 0){
-            printf("Choose a spot to place %c.\n", turn_sign);
+            printf("\n\nChoose a spot to place %c at local board %c.\n", turn_sign, *local_board_state[0]);
+            printf("-----> ");
             scanf("%d", &player_spot_choice);
     
             if (*(*(local_board_state) + player_spot_choice) == 'X' && 
@@ -361,7 +415,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     // *(*(local_board_state + int_local_board_number - player_spot_choice) + player_spot_choice) = 'X';
 
     if (*enemy_turn_pointer == 1){
-        printf("Player %c chose to put %c at spot %d\n", turn_sign, turn_sign, player_spot_choice);
+        printf("\nThe enemy chose to put %c at spot %d\n\n", turn_sign, player_spot_choice);
         Sleep(2500);
     }
 
