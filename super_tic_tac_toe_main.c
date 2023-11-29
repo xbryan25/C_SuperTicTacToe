@@ -1,3 +1,4 @@
+// TODO: Make a function to change all of the remaining numbers into player_turn when a player wins in that local board
 
 #include <stdio.h>
 
@@ -77,7 +78,7 @@ int main(){
                 system("cls");
 
                 if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
-                    printf("Going to local board %d...", next_local);
+                    printf("Loading all local boards...");
                 }
 
                 Sleep(1000);
@@ -91,7 +92,7 @@ int main(){
                 system("cls");
 
                 if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
-                    printf("Going to local board %d...", next_local);
+                    printf("Loading all local boards...");
                 }
                 
                 Sleep(1000);
@@ -118,7 +119,7 @@ int main(){
                     system("cls");
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
-                        printf("Going to local board %d...", next_local);
+                        printf("Loading all local boards...");
                     }
                     
                     Sleep(1000);
@@ -138,7 +139,7 @@ int main(){
                     system("cls");
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
-                        printf("Going to local board %d...", next_local);
+                        printf("Loading all local boards...");
                     }
 
                     Sleep(1000);
@@ -369,7 +370,8 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
 }
 
 int checkIfGlobalIsOccupied(char global_board_state[], int choice){
-    if (global_board_state[choice - 1] == 'X' || global_board_state[choice] == 'O'){
+    // TODO: WHAT??
+    if (global_board_state[choice - 1] == 'X' || global_board_state[choice - 1] == 'O'){
         return 1;
     } else{
         return 0;
@@ -415,7 +417,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     // *(*(local_board_state + int_local_board_number - player_spot_choice) + player_spot_choice) = 'X';
 
     if (*enemy_turn_pointer == 1){
-        printf("\nThe enemy chose to put %c at spot %d\n\n", turn_sign, player_spot_choice);
+        printf("\n\nThe enemy chose to put %c at spot %d\n", turn_sign, player_spot_choice);
         Sleep(2500);
     }
 
