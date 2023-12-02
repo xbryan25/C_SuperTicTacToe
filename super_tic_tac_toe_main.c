@@ -1,4 +1,4 @@
-// TODO: Make a function to change all of the remaining numbers into player_turn when a player wins in that local board
+// TODO: Make enemy choose a local board randomly when global board is shown
 
 #include <stdio.h>
 
@@ -28,8 +28,8 @@ void cleanUpBoard(char local_board_state[], char turn_sign);
 int main(){
     // Initialize variables
     char global_board_state[] = {'1', '2', '3',
-                                 '2', '5', '6',
-                                 '3', '8', '9'};
+                                 '4', '5', '6',
+                                 '7', '8', '9'};
                                   
     char local_board_states[9][10] = {{'1', 'X', 'X', '3', '4', '5', '6', '7', '8', '9'},
                                 {'2', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
@@ -114,7 +114,6 @@ int main(){
 
         } else{
             if (enemy_turn == 0){
-                
                 if (global_board_state[next_local- 1] != 'X' && global_board_state[next_local - 1] != 'O'){
                     next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
                     Sleep(2000);
@@ -122,6 +121,9 @@ int main(){
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
                         printf("Loading all local boards...");
+                    } else{
+                        choose_any_local = 0;
+                        global_only = 0;
                     }
                     
                     Sleep(1000);
@@ -133,7 +135,7 @@ int main(){
                 }
                 enemy_turn = 1;
 
-            } else {
+            } else{
 
                 if (global_board_state[next_local - 1] != 'X' && global_board_state[next_local - 1] != 'O'){
                     next_local = nextLocalBoard(local_board_states, global_board_state, player_sign, next_local, enemy_turn_pointer);
@@ -142,6 +144,9 @@ int main(){
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
                         printf("Loading all local boards...");
+                    } else{
+                        choose_any_local = 0;
+                        global_only = 0;
                     }
 
                     Sleep(1000);
@@ -151,7 +156,6 @@ int main(){
                     choose_any_local = 0;
                     global_only = 0;
                 }
-
                 enemy_turn = 0;
             }
 
@@ -311,9 +315,9 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
             printf("That local board has already been won by %c. Find another local board.\n\n", turn_sign);
         }
     }
-    
+
     if (*enemy_turn_pointer == 1){
-        printf("Player %c chose local board %d\n", turn_sign, local_board_choice);
+        printf("Player \'%c\' chose local board %d\n", turn_sign, local_board_choice);
         Sleep(1500);
     }
 
