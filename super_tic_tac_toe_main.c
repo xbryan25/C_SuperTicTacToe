@@ -1,4 +1,5 @@
-
+// TODO: Fix bug where AI goes two times
+// TODO: Make a function to check if all the boards are full or not, to check if the game's result is a tie 
 
 #include <stdio.h>
 
@@ -14,6 +15,7 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
 int nextLocalBoard(char local_board_states[9][10], char global_board_state[], char turn_sign, int next_local, int *enemy_turn_pointer);
 
 int checkIfGlobalIsOccupied(char global_board_state[], int choice);
+int checkIfTie(char global_board_state[]);
 
 int generateRandomNumber(int max);
 
@@ -27,6 +29,7 @@ void cleanUpBoard(char local_board_state[], char turn_sign);
 
 int main(){
     // Initialize variables
+
     char global_board_state[] = {'1', '2', '3',
                                  '4', '5', '6',
                                  '7', '8', '9'};
@@ -57,6 +60,7 @@ int main(){
     int next_local = 0;
     int enemy_turn = 0;
     int global_only = 0;
+    int check_if_tie = 0;
 
     int overall_winner = 0;
 
@@ -70,6 +74,9 @@ int main(){
             break;
         } else if (checkGlobalBoard(global_board_state, player_sign) == 2){
             overall_winner = 2;
+            break;
+        } else if (checkIfTie(global_board_state) == 1){
+            check_if_tie = 1;
             break;
         }
 
@@ -131,13 +138,15 @@ int main(){
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
                         printf("Loading all local boards...");
+                        Sleep(1000);
+                        system("cls");
                     } else{
                         choose_any_local = 0;
                         global_only = 0;
                     }
                     
-                    Sleep(1000);
-                    system("cls");
+                    // Sleep(1000);
+                    // system("cls");
                 } else{
                     system("cls");
                     choose_any_local = 0;
@@ -154,13 +163,15 @@ int main(){
 
                     if (checkIfGlobalIsOccupied(global_board_state, next_local) == 0){
                         printf("Loading all local boards...");
+                        Sleep(1000);
+                        system("cls");
                     } else{
                         choose_any_local = 0;
                         global_only = 0;
                     }
 
-                    Sleep(1000);
-                    system("cls");
+                    // Sleep(1000);
+                    // system("cls");
                 } else{
                     system("cls");
                     choose_any_local = 0;
@@ -181,12 +192,17 @@ int main(){
     Sleep(1000);
     system("cls");
 
+    printf("Global Board:\n\n");
+    showOnlyGlobalBoard(global_board_state);
+
+    // TODO: Use string padding in here later
+
     if (overall_winner == 1){
-        showOnlyGlobalBoard(global_board_state);
-        printf("\n\n\n\n          The winner is player \'X\'!\n");
+        printf("\n                                The winner is player \'X\'!\n");
     } else if (overall_winner == 2){
-        showOnlyGlobalBoard(global_board_state);
-        printf("\n\n\n\n          The winner is player \'O\'!\n");
+        printf("\n                                The winner is player \'O\'!\n");
+    } else if (check_if_tie == 1){
+        printf("\n                           Both players are tied until the very end.\n");
     }
 
     return 0;
@@ -393,6 +409,24 @@ int checkIfGlobalIsOccupied(char global_board_state[], int choice){
     } else{
         return 0;
     }
+}
+
+int checkIfTie(char global_board_state[]){
+    // Checks how many spots of the global board are filled
+    int fill_count = 0;
+
+    for (int i = 0; i < 9; i++){
+        if (global_board_state[i] == 'X' || global_board_state[i] == 'O'){
+            fill_count++;
+        }
+    }
+
+    if (fill_count == 9){
+        return 1;
+    } else{
+        return 0;
+    }
+
 }
 
 int generateRandomNumber(int max){
