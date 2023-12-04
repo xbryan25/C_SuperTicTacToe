@@ -1,4 +1,3 @@
-// TODO: Fix bug where AI goes two times
 
 #include <stdio.h>
 
