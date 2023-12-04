@@ -1,5 +1,4 @@
 // TODO: Fix bug where AI goes two times
-// TODO: Make a function to check if all the boards are full or not, to check if the game's result is a tie 
 
 #include <stdio.h>
 
@@ -30,9 +29,9 @@ void cleanUpBoard(char local_board_state[], char turn_sign);
 int main(){
     // Initialize variables
 
-    char global_board_state[] = {'1', '2', '3',
-                                 '4', '5', '6',
-                                 '7', '8', '9'};
+    char global_board_state[] = {'X', '2', '3',
+                                 'O', 'X', '6',
+                                 '7', '8', 'O'};
 
     char local_board_states[9][10] = {{'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'2', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -55,14 +54,8 @@ int main(){
     //                             {'9', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
 
     char player_sign = 'X';
-    int choose_any_local = 0; 
-    int do_while_flag = 0;
-    int next_local = 0;
-    int enemy_turn = 0;
-    int global_only = 0;
-    int check_if_tie = 0;
-
-    int overall_winner = 0;
+    int choose_any_local = 0, do_while_flag = 0, next_local = 0, enemy_turn = 0; 
+    int global_only = 0, check_if_tie = 0, overall_winner = 0;
 
     int *enemy_turn_pointer = &enemy_turn;
 
@@ -147,12 +140,14 @@ int main(){
                     
                     // Sleep(1000);
                     // system("cls");
+                    enemy_turn = 1;
                 } else{
                     system("cls");
                     choose_any_local = 0;
                     global_only = 0;
+                    enemy_turn = 0;
                 }
-                enemy_turn = 1;
+                
 
             } else{
 
@@ -172,12 +167,14 @@ int main(){
 
                     // Sleep(1000);
                     // system("cls");
+                    enemy_turn = 0;
                 } else{
                     system("cls");
                     choose_any_local = 0;
                     global_only = 0;
+                    enemy_turn = 1;                
                 }
-                enemy_turn = 0;
+                // enemy_turn = 0;
             }
 
             if (player_sign == 'X'){
@@ -468,7 +465,7 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
     // *(*(local_board_state + int_local_board_number - player_spot_choice) + player_spot_choice) = 'X';
 
     if (*enemy_turn_pointer == 1){
-        printf("\n\nThe enemy chose to put %c at spot %d\n", turn_sign, player_spot_choice);
+        printf("\n\nThe enemy chose to put \'%c\' at spot %d on local board %c.\n", turn_sign, player_spot_choice, (*local_board_state)[0]);
         Sleep(2500);
     }
 
