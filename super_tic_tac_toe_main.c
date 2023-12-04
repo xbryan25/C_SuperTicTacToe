@@ -28,9 +28,9 @@ void cleanUpBoard(char local_board_state[], char turn_sign);
 int main(){
     // Initialize variables
 
-    char global_board_state[] = {'X', '2', '3',
-                                 'O', 'X', '6',
-                                 '7', '8', 'O'};
+    char global_board_state[] = {'1', '2', '3',
+                                 '4', '5', '6',
+                                 '7', '8', '9'};
 
     char local_board_states[9][10] = {{'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'2', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -41,16 +41,6 @@ int main(){
                                 {'7', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'8', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                                 {'9', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}};
-                                  
-    // char local_board_states[9][10] = {{'1', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'2', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'3', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'4', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'5', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'6', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'7', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'8', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
-    //                             {'9', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
 
     char player_sign = 'X';
     int choose_any_local = 0, do_while_flag = 0, next_local = 0, enemy_turn = 0; 
@@ -132,22 +122,19 @@ int main(){
                         printf("Loading all local boards...");
                         Sleep(1000);
                         system("cls");
+                        enemy_turn = 1;
                     } else{
                         choose_any_local = 0;
                         global_only = 0;
                     }
-                    
-                    // Sleep(1000);
-                    // system("cls");
-                    enemy_turn = 1;
+                    // enemy_turn = 1;
                 } else{
                     system("cls");
                     choose_any_local = 0;
                     global_only = 0;
                     enemy_turn = 0;
                 }
-                
-
+        
             } else{
 
                 if (global_board_state[next_local - 1] != 'X' && global_board_state[next_local - 1] != 'O'){
@@ -159,21 +146,19 @@ int main(){
                         printf("Loading all local boards...");
                         Sleep(1000);
                         system("cls");
+                        enemy_turn = 0;
                     } else{
                         choose_any_local = 0;
                         global_only = 0;
                     }
 
-                    // Sleep(1000);
-                    // system("cls");
-                    enemy_turn = 0;
+                    // enemy_turn = 0;
                 } else{
                     system("cls");
                     choose_any_local = 0;
                     global_only = 0;
                     enemy_turn = 1;                
                 }
-                // enemy_turn = 0;
             }
 
             if (player_sign == 'X'){
@@ -399,7 +384,6 @@ int nextLocalBoard(char local_board_states[9][10], char global_board_state[], ch
 }
 
 int checkIfGlobalIsOccupied(char global_board_state[], int choice){
-    // TODO: WHAT??
     if (global_board_state[choice - 1] == 'X' || global_board_state[choice - 1] == 'O'){
         return 1;
     } else{
@@ -514,34 +498,6 @@ void checkLocalBoard(char global_board_state[], char local_board_state[], int lo
     } else {
         return ;
     }
-
-    // if ((local_board_state[1] == local_board_state[2] && local_board_state[2] == local_board_state[3])){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[4] == local_board_state[5] && local_board_state[5] == local_board_state[6]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[7] == local_board_state[8] && local_board_state[8] == local_board_state[9]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[1] == local_board_state[4] && local_board_state[4] == local_board_state[7]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[2] == local_board_state[5] && local_board_state[5] == local_board_state[8]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[3] == local_board_state[6] && local_board_state[6] == local_board_state[9]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[1] == local_board_state[5] && local_board_state[5] == local_board_state[9]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else if (local_board_state[3] == local_board_state[5] && local_board_state[5] == local_board_state[7]){
-    //     global_board_state[local_board - 1] = turn_sign;
-    //     cleanUpBoard(local_board_state, turn_sign);
-    // } else {
-    //     return ;
-    // }
 }
 
 void cleanUpBoard(char local_board_state[], char turn_sign){
