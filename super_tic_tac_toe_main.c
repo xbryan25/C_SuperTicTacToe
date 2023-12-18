@@ -1,3 +1,4 @@
+// TODO: Optimize code and finalize the look
 
 #include <stdio.h>
 
@@ -26,6 +27,8 @@ void checkLocalBoard(char global_board_state[], char local_board_state[], int lo
 void cleanUpBoard(char local_board_state[], char turn_sign);
 
 int main(){
+    srand(time(NULL));  // Load srand()
+
     // Initialize variables
 
     char global_board_state[] = {'1', '2', '3',
@@ -231,7 +234,7 @@ void showAllLocalBoards(char local_board_states[9][10]){
     int lb_c = 0;
 
     while (lb_c < 9){
-        printf("\n\n           Local Board %c                            Local Board %c                      Local Board %c \n\n", 
+        printf("\n\n           Local Board %c                          Local Board %c                          Local Board %c \n\n", 
                 local_board_states[lb_c][0], local_board_states[lb_c + 1][0], local_board_states[lb_c + 2][0]);
 
 
@@ -312,10 +315,16 @@ int anyLocalBoardChoice(char local_board_states[9][10], char global_board_state[
 
     while (1){
         if (*enemy_turn_pointer == 0){
-            printf("Choose a local TicTacToe spot. ");
+            printf("Choose a local TicTacToe spot. \n");
+            printf("-----> ");
             scanf("%d", &local_board_choice);
         } else {
             local_board_choice = generateRandomNumber(8) + 1;
+        }
+
+        if (local_board_choice <= 0 || local_board_choice > 9){
+            printf("The local board is only from 1 to 9. Your input was %d. Try again.\n\n", local_board_choice);
+            continue;
         }   
 
         if (checkIfGlobalIsOccupied(global_board_state, local_board_choice) == 0){
@@ -410,7 +419,6 @@ int checkIfTie(char global_board_state[]){
 }
 
 int generateRandomNumber(int max){
-    srand(time(NULL));
     return rand() % max;
 }
 
@@ -427,7 +435,11 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
                 *(*(local_board_state) + player_spot_choice) == 'O'){
 
                 printf("That spot is already occupied. Choose another spot on the board. \n");
-            }
+            } else if (player_spot_choice <= 0 || player_spot_choice > 9){
+                printf("The spots are only from 1 to 9. Your input was %d. Try again.", player_spot_choice);
+                continue;
+            }  
+
         } else {
             player_spot_choice = generateRandomNumber(8) + 1;
 
@@ -439,7 +451,8 @@ int editLocalBoard(char (*local_board_state)[10], char turn_sign, int *enemy_tur
         }
 
     }while (*(*(local_board_state) + player_spot_choice) == 'X' || 
-            *(*(local_board_state) + player_spot_choice) == 'O');
+            *(*(local_board_state) + player_spot_choice) == 'O' || 
+            player_spot_choice <= 0 || player_spot_choice > 9);
 
     // The commented line of code below is wrong because this function is already given the ith array of the 2d array
     // It is just needed to get the position of the jth element.
