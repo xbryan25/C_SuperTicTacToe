@@ -1,4 +1,3 @@
-// TODO: Optimize code and finalize the look
 
 #include <stdio.h>
 
@@ -267,7 +266,7 @@ void showAllLocalBoards(char local_board_states[9][10]){
     // lb_c means local board counter
 
     int lb_c = 0;
-
+    
     while (lb_c < 9){
         printf("\n\n           Local Board %c                          Local Board %c                          Local Board %c \n\n", 
                 local_board_states[lb_c][0], local_board_states[lb_c + 1][0], local_board_states[lb_c + 2][0]);
@@ -310,10 +309,6 @@ void showAllLocalBoards(char local_board_states[9][10]){
 
         lb_c += 3;
     }
-
-
-
-    
 }
 
 void showOneLocalBoard(char local_board_state[]){
